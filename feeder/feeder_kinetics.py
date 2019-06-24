@@ -56,18 +56,19 @@ class Feeder_kinetics(torch.utils.data.Dataset):
         self.load_data()
 
     def load_data(self):
-        # load file list
-        self.sample_name = os.listdir(self.data_path)
-
-        if self.debug:
-            self.sample_name = self.sample_name[0:2]
-
         # load label
         label_path = self.label_path
         with open(label_path) as f:
             label_info = json.load(f)
 
-        sample_id = [name.split('.')[0] for name in self.sample_name]
+        # load file list
+        #self.sample_name = os.listdir(self.data_path)
+        self.sample_name = [f'{id}.json' for id in list(label_info.keys())]
+
+        if self.debug:
+            self.sample_name = self.sample_name[0:2]
+
+        sample_id = [id for id in list(label_info.keys())] #[name.split('.')[0] for name in self.sample_name]
         self.label = np.array(
             [label_info[id]['label_index'] for id in sample_id])
         has_skeleton = np.array(
@@ -121,8 +122,9 @@ class Feeder_kinetics(torch.utils.data.Dataset):
         data_numpy[1][data_numpy[2] == 0] = 0
 
         # get & check label index
-        label = video_info['label_index']
-        assert (self.label[index] == label)
+        #label = video_info['label_index']
+        #assert (self.label[index] == label)
+        label = self.label[index]
 
         # data augmentation
         if self.random_shift:
