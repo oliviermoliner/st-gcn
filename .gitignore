@@ -9,6 +9,9 @@ model/*
 *.pt
 *.caffemodel
 cache/
+checkpoints/*
+save/*
+configs_private/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -109,3 +112,8 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# custom
+mmskeleton/version.py
+data
+.vscode
